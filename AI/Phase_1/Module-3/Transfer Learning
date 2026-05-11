@@ -1,0 +1,112 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "c72aedcc-7124-4979-9be6-a35203b741d2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import torch\n",
+    "import torch.nn as nn\n",
+    "from torchvision import models"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "e051b183-0c16-4965-83f4-bd2653b47167",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 1. Load a pre-trained ResNet-18\n",
+    "# 'weights' tells PyTorch to download the pre-trained \"knowledge\"\n",
+    "model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "9f5d3054-0127-4076-bf45-4472f8c35cac",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 2. \"Freeze\" the model (The \"Chef\" already knows how to cook)\n",
+    "# This prevents the pre-trained weights from being modified during training\n",
+    "for param in model.parameters():\n",
+    "    param.requires_grad = False "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "357f094c-9817-48d5-8ce3-0d59880657c1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 3. Replace the \"Head\" (The FC layer)\n",
+    "# ResNet-18's original head expects 512 input features\n",
+    "num_features = model.fc.in_features"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "be3da32a-8f58-49ff-93ff-0748085f4679",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Let's say we only have 3 classes: [Pizza, Burger, Salad]\n",
+    "model.fc = nn.Linear(num_features, 3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "a8398994-35e6-4a44-9c71-bc34f26e6ca5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Linear(in_features=512, out_features=3, bias=True)\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Now, only the weights in model.fc will be updated during training!\n",
+    "print(model.fc)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9db63238-c29d-49d0-a8e4-06620c6a51cb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

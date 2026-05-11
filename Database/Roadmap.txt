@@ -1,0 +1,84 @@
+Phase 1: The Non-Negotiable Foundation (SQL & Relational Theory)
+Goal: Stop thinking in "Objects" and start thinking in "Sets" and "Relations."
+Timeframe: 2–3 Weeks
+
+
+The Theory: Learn the Relational Model. Understand Tuple Calculus, Sets, and Normalization (1NF, 2NF, 3NF, BCNF).
+Why: If you don't normalize, your data integrity will rot. You need to know how to split tables to reduce redundancy.
+The Tool: Install PostgreSQL. It is the gold standard for open-source relational databases.
+
+The Language (SQL):
+Basic: SELECT, INSERT, UPDATE, DELETE.
+Intermediate: JOINS (Inner, Left, Right, Full), GROUP BY, HAVING.
+Crucial: Understand the execution order of an SQL query (e.g., WHERE happens before SELECT).
+
+Checkpoints:
+You can explain the difference between a LEFT JOIN and an INNER JOIN without guessing.
+You can take a messy Excel sheet and design a normalized schema (3NF) for it.
+
+
+Phase 2: Application Mastery (Performance & Correctness)
+Goal: Writing queries that don't crash the server when the data scales.
+Timeframe: 3–4 Weeks
+
+This is where you stop being a "junior dev."
+Indexing (The Most Important Skill):
+Learn how B-Trees work (high level).
+Understand Clustered vs. Non-Clustered indexes.
+Learn EXPLAIN ANALYZE. This command tells you how the DB executes your query. If you see a "Seq Scan" (Sequential Scan) on a large table, you failed.
+Transactions & ACID:
+Atomicity, Consistency, Isolation, Durability.
+Learn Isolation Levels: Read Committed, Repeatable Read, Serializable. Understand "Dirty Reads" and "Phantom Reads."
+Locks: Row-level vs. Table-level locking. Learn what a "Deadlock" is and how to cause one.
+
+Resources:
+Website: "Use The Index, Luke" (Markus Winand) – Mandatory reading.
+
+
+Phase 3: The Internals (How it works under the hood)
+Goal: Understanding how a database is implemented in C/C++.
+Timeframe: 1–2 Months
+
+Since you know C++ and OS concepts, this is the deep dive.
+Storage Engines:
+Row-Oriented (Postgres/MySQL) vs. Column-Oriented (ClickHouse/Snowflake).
+Data Structures:  Implement a B+ Tree in C++ (disk-based, not memory-based). This is a classic rigorous exercise.
+LSM Trees: How Log-Structured Merge Trees work (used in RocksDB, Cassandra, LevelDB).
+The Buffer Pool:
+Databases don't rely on the OS page cache; they manage their own memory. Learn about Page Eviction policies (LRU, Clock).
+Concurrency Control:
+How do you let two people write to the DB at once without corruption?
+Study MVCC (Multi-Version Concurrency Control). This is how Postgres allows reading while writing without locking everything.
+Logging & Recovery:
+WAL (Write Ahead Log): Why do databases write to a log before writing to the actual data file? (Hint: Crash recovery).
+ARIES Algorithm: How databases recover after a power failure.
+
+Resources:
+Course: CMU 15-445/645 (Intro to Database Systems) by Andy Pavlo.
+Note: This is arguably the best DB internals course in the world. It uses C++. Watch the lectures on YouTube.
+Book: Database Internals by Alex Petrov.
+
+
+Phase 4: Distributed Systems & NoSQL
+Goal: Now you are allowed to touch MongoDB again.
+Timeframe: 3 Weeks
+
+Now that you know the rules (SQL/ACID), you can learn when to break them.
+CAP Theorem: Consistency, Availability, Partition Tolerance. You can only pick two.
+Sharding & Replication:
+Vertical vs. Horizontal scaling.
+Leader-Follower replication vs. Leaderless (Dynamo-style).
+Consistent Hashing.
+NoSQL Families:
+Document: MongoDB (You know the syntax, now learn the why).
+Key-Value: Redis (Learn why it's fast—it's all in RAM).
+
+
+Phase 5: The "Capstone" Project
+If you truly want to master this, you have to build one.
+Project: Build a minimal Relational Database Clone in C++.
+Features:
+A REPL that accepts text input.
+A tokenizer/parser to understand INSERT and SELECT.
+A B-Tree storage engine that writes binary data to a file on disk.
+Cannot use any libraries for the storage (do it raw).
