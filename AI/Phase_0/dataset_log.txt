@@ -1,0 +1,2 @@
+epoch_1: loss=0.452
+epoch_2: loss=0.211

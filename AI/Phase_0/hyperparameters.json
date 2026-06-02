@@ -1,0 +1,5 @@
+{
+    "model_name": "mini-GPT",
+    "hidden_dim": 512,
+    "pretrained": true
+}
